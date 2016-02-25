@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organisational-specification 
+    id="joj"
+    os-version="0.6"
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os http://moise.sourceforge.net/xml/os.xsd'>
+	<structural-specification>
+		<role-definitions>
+			<role id="rSmallSeriesManager"/>
+			<role id="rSmallSeriesShopFloor"/>
+			<role id="rPlanning">
+				<extends role="rSmallSeriesManager"/>
+			</role>
+			<role id="rStatistic">
+				<extends role="rSmallSeriesManager"/>
+			</role>
+			<role id="rExpert">
+				<extends role="rSmallSeriesManager"/>
+			</role>
+			<role id="rSetup">
+				<extends role="rSmallSeriesShopFloor"/>
+			</role>
+			<role id="rAssembly">
+				<extends role="rSmallSeriesShopFloor"/>
+			</role>
+			<role id="rInspection">
+				<extends role="rSmallSeriesShopFloor"/>
+			</role>
+		</role-definitions>
+		<group-specification id="grCompany">
+			<links>
+				<link from="rSmallSeriesManager" to="rSmallSeriesShopFloor" type="authority" scope="inter-group" extends-subgroups="true" bi-dir="false"/>
+				<link from="rSmallSeriesShopFloor" to="rSmallSeriesShopFloor" type="communication" scope="inter-group" extends-subgroups="true" bi-dir="false"/>
+				<link from="rInspection" to="rAssembly" type="authority" scope="intra-group" extends-subgroups="true" bi-dir="false"/>
+				<link from="rSetup" to="rAssembly" type="authority" scope="intra-group" extends-subgroups="true" bi-dir="false"/>
+				<link from="rExpert" to="rStatistic" type="authority" scope="intra-group" extends-subgroups="true" bi-dir="false"/>
+			</links>
+			<subgroups>
+				<group-specification id="grManagers" min="1">
+					<roles>
+						<role id="rPlanning" min="1" max="1"/>
+						<role id="rStatistic" min="1" max="1"/>
+						<role id="rExpert" min="1" max="1"/>
+					</roles>
+				</group-specification>
+				<group-specification id="grShopFloor" min="1">
+					<roles>
+						<role id="rSetup" min="1" max="3"/>
+						<role id="rAssembly" min="1" max="10"/>
+						<role id="rInspection" min="1" max="3"/>
+					</roles>
+				</group-specification>
+			</subgroups>
+		</group-specification>
+	</structural-specification>
+	<functional-specification>
+		<scheme id="production">
+			<goal id="smallSeriesProductionControl" min="1">
+				<plan operator="sequence">
+					<goal id="pp" ds="production_planning">
+						<plan operator="sequence">
+							<goal id="g1" min="1" ds="receive product to production"/>
+							<goal id="g2" min="1" ds="select links for machines"/>
+						</plan>
+					</goal>
+					<goal id="ps" ds="production_setup">
+						<plan operator="sequence">
+							<goal id="g3" min="1" ds="select and create machines and links"/>
+							<goal id="g4" min="1" ds="setup line machines to produce"/>
+						</plan>
+					</goal>
+					<goal id="pa" ds="production_assembly">
+						<plan operator="sequence">
+							<goal id="g5" min="1" ds="load itens on loader and start"/>
+							<goal id="g6" min="1" ds="watch out production"/>
+							<goal id="g7" min="1" ds="end batch"/>
+						</plan>
+					</goal>
+					<goal id="ws" ds="write_production_statistics">
+						<plan operator="parallel">
+							<goal id="g8" min="1" ds="write production statistics"/>
+							<goal id="g9" min="1" ds="write products errors list"/>
+						</plan>
+					</goal>
+				</plan>
+			</goal>
+			
+			<mission id="leadUp" min="1">
+				<goal id="g1"/>
+				<goal id="g2"/>
+			</mission>
+			<mission id="setup" min="1">
+				<goal id="g3"/>
+				<goal id="g4"/>
+			</mission>
+			<mission id="assembly" min="1">
+				<goal id="g5"/>
+				<goal id="g6"/>
+				<goal id="g7"/>
+			</mission>
+			<mission id="statistics" min="1">
+				<goal id="g8"/>
+				<goal id="g9"/>
+			</mission>
+		</scheme>
+	</functional-specification>
+	<normative-specification>
+		<norm id="n1" type="obligation" role="rPlanning" mission="leadUp"/>
+		<norm id="n2" type="obligation" role="rSetup" mission="setup"/>
+		<norm id="n3" type="obligation" role="rAssembly" mission="assembly"/>
+		<norm id="n4" type="obligation" role="rStatistic" mission="statistics"/>
+	</normative-specification>
+</organisational-specification>
+
