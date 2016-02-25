@@ -1,0 +1,15 @@
+MAS mas2ssp {
+
+	infrastructure: JaCaMo
+
+	agents:
+		statistic;
+		qualifying;
+		inspector;
+		assembler;
+		configurator;
+		planner;
+		
+	aslSourcePath:
+		"src/asl";
+}

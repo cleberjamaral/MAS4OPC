@@ -1,0 +1,1402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://scadabr.org.br/api/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://scadabr.org.br/api/" xmlns:intf="http://scadabr.org.br/api/" xmlns:tns1="http://config.api.scadabr.org.br" xmlns:tns2="http://vo.api.scadabr.org.br" xmlns:tns3="http://constants.api.scadabr.org.br" xmlns:tns4="http://da.api.scadabr.org.br" xmlns:tns5="http://hda.api.scadabr.org.br" xmlns:tns6="http://ae.api.scadabr.org.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.2.1
+Built on Jun 14, 2005 (09:15:57 EDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://scadabr.org.br/api/" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <element name="id" type="xsd:int"/>
+   <element name="projectId" type="xsd:int"/>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://constants.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <simpleType name="ErrorCode">
+    <restriction base="xsd:string">
+     <enumeration value="OK"/>
+     <enumeration value="UNSPECIFIED_ERROR"/>
+     <enumeration value="INSUFFICIENT_PARAMETERS"/>
+     <enumeration value="INVALID_PARAMETER"/>
+     <enumeration value="ACCESS_DENIED"/>
+     <enumeration value="SERVER_BUSY"/>
+     <enumeration value="INVALID_ID"/>
+     <enumeration value="NOT_SUPPORTED"/>
+     <enumeration value="READ_ONLY"/>
+     <enumeration value="WRITE_ONLY"/>
+     <enumeration value="TIMED_OUT"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="DataSourceType">
+    <restriction base="xsd:string">
+     <enumeration value="MODBUS_IP"/>
+     <enumeration value="MODBUS_SERIAL"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="ServerStateCode">
+    <restriction base="xsd:string">
+     <enumeration value="RUNNING"/>
+     <enumeration value="FAILED"/>
+     <enumeration value="NO_CONFIG"/>
+     <enumeration value="SUSPENDED"/>
+     <enumeration value="TEST"/>
+     <enumeration value="COMM_FAULT"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="DataType">
+    <restriction base="xsd:string">
+     <enumeration value="INTEGER"/>
+     <enumeration value="UNSIGNED_INTEGER"/>
+     <enumeration value="LONG"/>
+     <enumeration value="UNSIGNED_LONG"/>
+     <enumeration value="STRING"/>
+     <enumeration value="BOOLEAN"/>
+     <enumeration value="FLOAT"/>
+     <enumeration value="DOUBLE"/>
+     <enumeration value="BYTE"/>
+     <enumeration value="UNSIGNED_BYTE"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="QualityCode">
+    <restriction base="xsd:string">
+     <enumeration value="BAD"/>
+     <enumeration value="BAD_CONFIGURATION_ERROR"/>
+     <enumeration value="BAD_NOT_CONNECTED"/>
+     <enumeration value="BAD_DEVICE_FAILURE"/>
+     <enumeration value="BAD_SENSOR_FAILURE"/>
+     <enumeration value="BAD_LAST_KNOWN_VALUE"/>
+     <enumeration value="BAD_COMM_FAILURE"/>
+     <enumeration value="BAD_OUT_OF_SERVICE"/>
+     <enumeration value="BAD_WAITING_FOR_INITIAL_DATA"/>
+     <enumeration value="UNCERTAIN"/>
+     <enumeration value="UNCERTAIN_LAST_USABLE_VALUE"/>
+     <enumeration value="UNCERTAIN_SENSOR_NOT_ACCURATE"/>
+     <enumeration value="UNCERTAIN_EU_EXCEEDED"/>
+     <enumeration value="UNCERTAIN_SUB_NORMAL"/>
+     <enumeration value="GOOD"/>
+     <enumeration value="GOOD_LOCAL_OVERRIDE"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="AlarmLevel">
+    <restriction base="xsd:string">
+     <enumeration value="NONE"/>
+     <enumeration value="INFORMATION"/>
+     <enumeration value="URGENT"/>
+     <enumeration value="CRITICAL"/>
+     <enumeration value="LIFE_SAFETY"/>
+    </restriction>
+   </simpleType>
+   <simpleType name="EventType">
+    <restriction base="xsd:string">
+     <enumeration value="SYSTEM_EVENT"/>
+     <enumeration value="AUDIT_EVENT"/>
+     <enumeration value="SCHEDULED_EVENT"/>
+     <enumeration value="POINT_CONDITION_EVENT"/>
+     <enumeration value="ASYNCHRONOUS_DATA"/>
+    </restriction>
+   </simpleType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://vo.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <complexType name="APIError">
+    <sequence>
+     <element name="code" type="tns3:ErrorCode"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ReplyBase">
+    <sequence>
+     <element name="rcvTime" nillable="true" type="xsd:dateTime"/>
+     <element name="replyTime" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="FlexProject">
+    <sequence>
+     <element name="id" nillable="true" type="xsd:int"/>
+     <element name="name" type="xsd:string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="xmlConfig" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ServerStatus">
+    <sequence>
+     <element name="startTime" nillable="true" type="xsd:dateTime"/>
+     <element name="serverState" type="tns3:ServerStateCode"/>
+     <element name="productVersion" nillable="true" type="xsd:string"/>
+     <element maxOccurs="unbounded" minOccurs="0" name="supportedLocaleIDs" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ItemValue">
+    <sequence>
+     <element name="itemName" nillable="true" type="xsd:string"/>
+     <element name="dataType" nillable="true" type="tns3:DataType"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+     <element name="quality" nillable="true" type="tns3:QualityCode"/>
+     <element name="timestamp" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="ItemStringValue">
+    <sequence>
+     <element name="itemName" nillable="true" type="xsd:string"/>
+     <element name="dataType" nillable="true" type="tns3:DataType"/>
+     <element name="value" nillable="true" type="xsd:string"/>
+     <element name="quality" nillable="true" type="tns3:QualityCode"/>
+     <element name="timestamp" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="ItemInfo">
+    <sequence>
+     <element name="itemName" nillable="true" type="xsd:string"/>
+     <element name="dataType" nillable="true" type="tns3:DataType"/>
+     <element name="writable" nillable="true" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="EventMessage">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="user" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="message" type="xsd:string"/>
+     <element name="timestamp" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="EventNotification">
+    <sequence>
+     <element name="id" type="xsd:int"/>
+     <element name="alias" type="xsd:string"/>
+     <element name="eventType" type="tns3:EventType"/>
+     <element name="alarmLevel" type="tns3:AlarmLevel"/>
+     <element maxOccurs="unbounded" minOccurs="0" name="message" type="tns2:EventMessage"/>
+     <element name="timestamp" nillable="true" type="xsd:dateTime"/>
+     <element name="ackTime" nillable="true" type="xsd:dateTime"/>
+     <element name="rtnTime" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <complexType name="EventDefinition">
+    <sequence>
+     <element name="eventName" nillable="true" type="xsd:string"/>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="eventType" type="tns3:EventType"/>
+     <element name="alarmLevel" type="tns3:AlarmLevel"/>
+     <element name="configuration" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://config.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <element name="RemoveFlexProjectResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="SetFlexBuilderConfigParams">
+    <complexType>
+     <sequence>
+      <element name="project" type="tns2:FlexProject"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="SetFlexBuilderConfigResponse">
+    <complexType>
+     <sequence>
+      <element name="projectId" type="xsd:int"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="GetFlexBuilderConfigResponse">
+    <complexType>
+     <sequence>
+      <element name="project" type="tns2:FlexProject"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseFlexProjectsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="projects" type="tns2:FlexProject"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="ConfigureDataPointParams">
+    <complexType>
+     <sequence>
+      <element name="dataSourceId" nillable="true" type="xsd:int"/>
+      <element name="type" nillable="true" type="tns3:DataSourceType"/>
+      <element name="dataPoint" nillable="true" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="ConfigureDataPointResponse">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="RemoveDataPointParams">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="RemoveDataPointResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseDataPointsParams">
+    <complexType>
+     <sequence>
+      <element name="dataSourceId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseDataPointsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+      <element name="type" nillable="true" type="tns3:DataSourceType"/>
+      <element maxOccurs="unbounded" name="dataPoints" nillable="true" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="RemoveDataSourceParams">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="RemoveDataSourceResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="ConfigureDataSourceParams">
+    <complexType>
+     <sequence>
+      <element name="type" nillable="true" type="tns3:DataSourceType"/>
+      <element name="dataSource" nillable="true" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="ConfigureDataSourceResponse">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseDataSourcesParams">
+    <complexType>
+     <sequence>
+      <element name="type" nillable="true" type="tns3:DataSourceType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseDataSourcesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+      <element name="type" nillable="true" type="tns3:DataSourceType"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="dataSources" nillable="true" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://da.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <element name="GetStatusResponse">
+    <complexType>
+     <sequence>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+      <element name="serverStatus" nillable="true" type="tns2:ServerStatus"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ReadDataOptions">
+    <sequence>
+     <element name="maxReturn" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <element name="ReadDataParams">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="itemPathList" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns4:ReadDataOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="ReadDataResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemValue"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="WriteDataOptions">
+    <sequence>
+     <element name="returnItemValues" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="WriteDataParams">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemValue"/>
+      <element name="options" nillable="true" type="tns4:WriteDataOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="WriteDataResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemValue"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="WriteStringDataParams">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemStringValue"/>
+      <element name="options" nillable="true" type="tns4:WriteDataOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="WriteStringDataResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemStringValue"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="BrowseTagsOptions">
+    <sequence>
+     <element name="maxReturn" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <element name="BrowseTagsParams">
+    <complexType>
+     <sequence>
+      <element name="itemsPath" nillable="true" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns4:BrowseTagsOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseTagsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemInfo"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://hda.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://ae.api.scadabr.org.br"/>
+   <complexType name="GetDataHistoryOptions">
+    <sequence>
+     <element name="maxReturn" type="xsd:int"/>
+     <element name="initialDate" nillable="true" type="xsd:dateTime"/>
+     <element name="finalDate" nillable="true" type="xsd:dateTime"/>
+    </sequence>
+   </complexType>
+   <element name="GetDataHistoryParams">
+    <complexType>
+     <sequence>
+      <element maxOccurs="1" minOccurs="0" name="itemName" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns5:GetDataHistoryOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="GetDataHistoryResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element name="moreValues" type="xsd:boolean"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="itemsList" type="tns2:ItemValue"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://ae.api.scadabr.org.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://da.api.scadabr.org.br"/>
+   <import namespace="http://constants.api.scadabr.org.br"/>
+   <import namespace="http://vo.api.scadabr.org.br"/>
+   <import namespace="http://config.api.scadabr.org.br"/>
+   <import namespace="http://hda.api.scadabr.org.br"/>
+   <complexType name="ActiveEventsOptions">
+    <sequence>
+     <element name="maxReturn" type="xsd:int"/>
+     <element name="alarmLevel" nillable="true" type="tns3:AlarmLevel"/>
+    </sequence>
+   </complexType>
+   <element name="GetActiveEventsParams">
+    <complexType>
+     <sequence>
+      <element name="eventsPath" nillable="true" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns6:ActiveEventsOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="GetActiveEventsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" name="eventsList" type="tns2:EventNotification"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="EventsHistoryOptions">
+    <sequence>
+     <element name="alarmLevel" nillable="true" type="tns3:AlarmLevel"/>
+     <element name="initialDate" nillable="true" type="xsd:dateTime"/>
+     <element name="finalDate" nillable="true" type="xsd:dateTime"/>
+     <element name="maxReturn" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <element name="GetEventsHistoryParams">
+    <complexType>
+     <sequence>
+      <element name="eventsPath" nillable="true" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns6:EventsHistoryOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="GetEventsHistoryResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="eventsList" type="tns2:EventNotification"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="AckEventsOptions">
+    <sequence>
+     <element name="returnEventDetails" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="AckEventsParams">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="eventsId" nillable="true" type="xsd:int"/>
+      <element name="options" nillable="true" type="tns6:AckEventsOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="AckEventsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="events" type="tns2:EventNotification"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="BrowseEventsOptions">
+    <sequence>
+     <element name="eventType" nillable="true" type="tns3:EventType"/>
+     <element name="returnEventsConfig" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="BrowseEventsParams">
+    <complexType>
+     <sequence>
+      <element name="eventsPath" nillable="true" type="xsd:string"/>
+      <element name="options" nillable="true" type="tns6:BrowseEventsOptions"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="BrowseEventsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="eventsList" type="tns2:EventDefinition"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="AnnotateEventParams">
+    <complexType>
+     <sequence>
+      <element name="eventId" nillable="true" type="xsd:int"/>
+      <element name="message" nillable="true" type="tns2:EventMessage"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="AnnotateEventResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns2:APIError"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="eventMessagesList" type="tns2:EventMessage"/>
+      <element name="replyBase" type="tns2:ReplyBase"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="browseDataPointsResponse">
+
+      <wsdl:part element="tns1:BrowseDataPointsResponse" name="BrowseDataPointsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="removeFlexProjectRequest">
+
+      <wsdl:part element="impl:id" name="id"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeFlexProjectResponse">
+
+      <wsdl:part element="tns1:RemoveFlexProjectResponse" name="RemoveFlexProjectResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFlexBuilderConfigRequest">
+
+      <wsdl:part element="impl:projectId" name="projectId"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDataHistoryRequest">
+
+      <wsdl:part element="tns5:GetDataHistoryParams" name="GetDataHistoryParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="configureDataPointRequest">
+
+      <wsdl:part element="tns1:ConfigureDataPointParams" name="ConfigureDataPointParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="readDataResponse">
+
+      <wsdl:part element="tns4:ReadDataResponse" name="ReadDataResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getActiveEventsRequest">
+
+      <wsdl:part element="tns6:GetActiveEventsParams" name="GetActiveEventsParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseDataSourcesResponse">
+
+      <wsdl:part element="tns1:BrowseDataSourcesResponse" name="BrowseDataSourcesResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="configureDataSourceResponse">
+
+      <wsdl:part element="tns1:ConfigureDataSourceResponse" name="ConfigureDataSourceResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ackEventsRequest">
+
+      <wsdl:part element="tns6:AckEventsParams" name="AckEventsParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setFlexBuilderConfigResponse">
+
+      <wsdl:part element="tns1:SetFlexBuilderConfigResponse" name="SetFlexBuilderConfigResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="configureDataPointResponse">
+
+      <wsdl:part element="tns1:ConfigureDataPointResponse" name="ConfigureDataPointResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="annotateEventRequest">
+
+      <wsdl:part element="tns6:AnnotateEventParams" name="AnnotateEventParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFlexBuilderConfigResponse">
+
+      <wsdl:part element="tns1:GetFlexBuilderConfigResponse" name="GetFlexBuilderConfigResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseEventsDefinitionsResponse">
+
+      <wsdl:part element="tns6:BrowseEventsResponse" name="BrowseEventsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDataSourceResponse">
+
+      <wsdl:part element="tns1:RemoveDataSourceResponse" name="RemoveDataSourceResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="writeStringDataResponse">
+
+      <wsdl:part element="tns4:WriteStringDataResponse" name="WriteStringDataResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="configureDataSourceRequest">
+
+      <wsdl:part element="tns1:ConfigureDataSourceParams" name="ConfigureDataSourceParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ackEventsResponse">
+
+      <wsdl:part element="tns6:AckEventsResponse" name="AckEventsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="writeDataRequest">
+
+      <wsdl:part element="tns4:WriteDataParams" name="WriteDataParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseTagsResponse">
+
+      <wsdl:part element="tns4:BrowseTagsResponse" name="BrowseTagsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="annotateEventResponse">
+
+      <wsdl:part element="tns6:AnnotateEventResponse" name="AnnotateEventResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDataPointResponse">
+
+      <wsdl:part element="tns1:RemoveDataPointResponse" name="RemoveDataPointResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEventsHistoryRequest">
+
+      <wsdl:part element="tns6:GetEventsHistoryParams" name="GetEventsHistoryParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseTagsRequest">
+
+      <wsdl:part element="tns4:BrowseTagsParams" name="BrowseTagsParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="writeDataResponse">
+
+      <wsdl:part element="tns4:WriteDataResponse" name="WriteDataResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEventsHistoryResponse">
+
+      <wsdl:part element="tns6:GetEventsHistoryResponse" name="GetEventsHistoryResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDataPointRequest">
+
+      <wsdl:part element="tns1:RemoveDataPointParams" name="RemoveDataPointParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseDataPointsRequest">
+
+      <wsdl:part element="tns1:BrowseDataPointsParams" name="BrowseDataPointsParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseDataSourcesRequest">
+
+      <wsdl:part element="tns1:BrowseDataSourcesParams" name="BrowseDataSourcesParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="writeStringDataRequest">
+
+      <wsdl:part element="tns4:WriteStringDataParams" name="WriteStringDataParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setFlexBuilderConfigRequest">
+
+      <wsdl:part element="tns1:SetFlexBuilderConfigParams" name="SetFlexBuilderConfigParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeDataSourceRequest">
+
+      <wsdl:part element="tns1:RemoveDataSourceParams" name="RemoveDataSourceParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseFlexProjectsResponse">
+
+      <wsdl:part element="tns1:BrowseFlexProjectsResponse" name="BrowseFlexProjectsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusResponse">
+
+      <wsdl:part element="tns4:GetStatusResponse" name="GetStatusResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="readDataRequest">
+
+      <wsdl:part element="tns4:ReadDataParams" name="ReadDataParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDataHistoryResponse">
+
+      <wsdl:part element="tns5:GetDataHistoryResponse" name="GetDataHistoryResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getActiveEventsResponse">
+
+      <wsdl:part element="tns6:GetActiveEventsResponse" name="GetActiveEventsResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseEventsDefinitionsRequest">
+
+      <wsdl:part element="tns6:BrowseEventsParams" name="BrowseEventsParams"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="browseFlexProjectsRequest">
+
+   </wsdl:message>
+
+   <wsdl:portType name="ScadaBRAPI">
+
+      <wsdl:operation name="removeFlexProject" parameterOrder="id">
+
+         <wsdl:input message="impl:removeFlexProjectRequest" name="removeFlexProjectRequest"/>
+
+         <wsdl:output message="impl:removeFlexProjectResponse" name="removeFlexProjectResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setFlexBuilderConfig" parameterOrder="SetFlexBuilderConfigParams">
+
+         <wsdl:input message="impl:setFlexBuilderConfigRequest" name="setFlexBuilderConfigRequest"/>
+
+         <wsdl:output message="impl:setFlexBuilderConfigResponse" name="setFlexBuilderConfigResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlexBuilderConfig" parameterOrder="projectId">
+
+         <wsdl:input message="impl:getFlexBuilderConfigRequest" name="getFlexBuilderConfigRequest"/>
+
+         <wsdl:output message="impl:getFlexBuilderConfigResponse" name="getFlexBuilderConfigResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseFlexProjects">
+
+         <wsdl:input message="impl:browseFlexProjectsRequest" name="browseFlexProjectsRequest"/>
+
+         <wsdl:output message="impl:browseFlexProjectsResponse" name="browseFlexProjectsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="configureDataPoint" parameterOrder="ConfigureDataPointParams">
+
+         <wsdl:input message="impl:configureDataPointRequest" name="configureDataPointRequest"/>
+
+         <wsdl:output message="impl:configureDataPointResponse" name="configureDataPointResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDataPoint" parameterOrder="RemoveDataPointParams">
+
+         <wsdl:input message="impl:removeDataPointRequest" name="removeDataPointRequest"/>
+
+         <wsdl:output message="impl:removeDataPointResponse" name="removeDataPointResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseDataPoints" parameterOrder="BrowseDataPointsParams">
+
+         <wsdl:input message="impl:browseDataPointsRequest" name="browseDataPointsRequest"/>
+
+         <wsdl:output message="impl:browseDataPointsResponse" name="browseDataPointsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDataSource" parameterOrder="RemoveDataSourceParams">
+
+         <wsdl:input message="impl:removeDataSourceRequest" name="removeDataSourceRequest"/>
+
+         <wsdl:output message="impl:removeDataSourceResponse" name="removeDataSourceResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="configureDataSource" parameterOrder="ConfigureDataSourceParams">
+
+         <wsdl:input message="impl:configureDataSourceRequest" name="configureDataSourceRequest"/>
+
+         <wsdl:output message="impl:configureDataSourceResponse" name="configureDataSourceResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseDataSources" parameterOrder="BrowseDataSourcesParams">
+
+         <wsdl:input message="impl:browseDataSourcesRequest" name="browseDataSourcesRequest"/>
+
+         <wsdl:output message="impl:browseDataSourcesResponse" name="browseDataSourcesResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdl:input message="impl:getStatusRequest" name="getStatusRequest"/>
+
+         <wsdl:output message="impl:getStatusResponse" name="getStatusResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="readData" parameterOrder="ReadDataParams">
+
+         <wsdl:input message="impl:readDataRequest" name="readDataRequest"/>
+
+         <wsdl:output message="impl:readDataResponse" name="readDataResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="writeData" parameterOrder="WriteDataParams">
+
+         <wsdl:input message="impl:writeDataRequest" name="writeDataRequest"/>
+
+         <wsdl:output message="impl:writeDataResponse" name="writeDataResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="writeStringData" parameterOrder="WriteStringDataParams">
+
+         <wsdl:input message="impl:writeStringDataRequest" name="writeStringDataRequest"/>
+
+         <wsdl:output message="impl:writeStringDataResponse" name="writeStringDataResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseTags" parameterOrder="BrowseTagsParams">
+
+         <wsdl:input message="impl:browseTagsRequest" name="browseTagsRequest"/>
+
+         <wsdl:output message="impl:browseTagsResponse" name="browseTagsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDataHistory" parameterOrder="GetDataHistoryParams">
+
+         <wsdl:input message="impl:getDataHistoryRequest" name="getDataHistoryRequest"/>
+
+         <wsdl:output message="impl:getDataHistoryResponse" name="getDataHistoryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getActiveEvents" parameterOrder="GetActiveEventsParams">
+
+         <wsdl:input message="impl:getActiveEventsRequest" name="getActiveEventsRequest"/>
+
+         <wsdl:output message="impl:getActiveEventsResponse" name="getActiveEventsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEventsHistory" parameterOrder="GetEventsHistoryParams">
+
+         <wsdl:input message="impl:getEventsHistoryRequest" name="getEventsHistoryRequest"/>
+
+         <wsdl:output message="impl:getEventsHistoryResponse" name="getEventsHistoryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ackEvents" parameterOrder="AckEventsParams">
+
+         <wsdl:input message="impl:ackEventsRequest" name="ackEventsRequest"/>
+
+         <wsdl:output message="impl:ackEventsResponse" name="ackEventsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseEventsDefinitions" parameterOrder="BrowseEventsParams">
+
+         <wsdl:input message="impl:browseEventsDefinitionsRequest" name="browseEventsDefinitionsRequest"/>
+
+         <wsdl:output message="impl:browseEventsDefinitionsResponse" name="browseEventsDefinitionsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="annotateEvent" parameterOrder="AnnotateEventParams">
+
+         <wsdl:input message="impl:annotateEventRequest" name="annotateEventRequest"/>
+
+         <wsdl:output message="impl:annotateEventResponse" name="annotateEventResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="APISoapBinding" type="impl:ScadaBRAPI">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="removeFlexProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeFlexProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeFlexProjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setFlexBuilderConfig">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setFlexBuilderConfigRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setFlexBuilderConfigResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlexBuilderConfig">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFlexBuilderConfigRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFlexBuilderConfigResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseFlexProjects">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="browseFlexProjectsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="browseFlexProjectsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="configureDataPoint">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="configureDataPointRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="configureDataPointResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDataPoint">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeDataPointRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeDataPointResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseDataPoints">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="browseDataPointsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="browseDataPointsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeDataSource">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeDataSourceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeDataSourceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="configureDataSource">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="configureDataSourceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="configureDataSourceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseDataSources">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="browseDataSourcesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="browseDataSourcesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="readData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="readDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="readDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="writeData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="writeDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="writeDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="writeStringData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="writeStringDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="writeStringDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseTags">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="browseTagsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="browseTagsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDataHistory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDataHistoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDataHistoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getActiveEvents">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getActiveEventsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getActiveEventsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEventsHistory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEventsHistoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEventsHistoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ackEvents">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ackEventsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ackEventsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="browseEventsDefinitions">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="browseEventsDefinitionsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="browseEventsDefinitionsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="annotateEvent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="annotateEventRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="annotateEventResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="API">
+
+      <wsdl:port binding="impl:APISoapBinding" name="API">
+
+         <wsdlsoap:address location="http://localhost:8080/ScadaBR/services/API"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
