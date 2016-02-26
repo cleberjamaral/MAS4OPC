@@ -11,11 +11,10 @@
 	<classpathentry kind="lib" path="src/lib/jason.jar"/>
 	<classpathentry kind="lib" path="src/lib/jess.jar"/>
 	<classpathentry kind="lib" path="src/lib/moise.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/axis.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/commons-discovery-0.2.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/jaxrpc.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/saaj.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
-	<classpathentry kind="lib" path="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
+	<classpathentry kind="lib" path="lib/saaj.jar"/>
+	<classpathentry kind="lib" path="lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/axis.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
