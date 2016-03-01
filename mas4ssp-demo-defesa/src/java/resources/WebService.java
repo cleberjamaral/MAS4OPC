@@ -24,9 +24,11 @@ import javax.xml.rpc.ServiceException;
 
 public class WebService {
 	
-	//declarando os objetos necessários para o servico para se conectar ao servidor - ScadaBR
+	//declarando os objetos necessarios para o servico para se conectar ao servidor - ScadaBR
 	static APILocator locator = new APILocator();
 	static ScadaBRAPI service = null;
+	
+	static boolean verboseDebug = false; 
 	
 	public static void testCall()
 	{
@@ -39,7 +41,7 @@ public class WebService {
 	
 	public static void initWeb()
 	{
-//		//declarando os objetos necessários para o servico para se conectar ao servidor - ScadaBR
+//		//declarando os objetos necessarios para o servico para se conectar ao servidor - ScadaBR
 //				APILocator locator = new APILocator();
 //				ScadaBRAPI service = null;
 				
@@ -52,17 +54,17 @@ public class WebService {
 					////////////////////////////////////////////////
 					
 					BrowseTagsOptions browseTagsOptions = new BrowseTagsOptions();
-					//número máximo de tags que buscará
-					browseTagsOptions.setMaxReturn(100); // parâmetro opcional (valor padrão = 100)
+					//numero maximo de tags que buscara�
+					browseTagsOptions.setMaxReturn(100); // parametro opcional (valor padrao = 100)
 					//configurando como receberemos as tags
 					BrowseTagsParams browseTagsParams = new BrowseTagsParams();
 					browseTagsParams.setOptions(browseTagsOptions);
-					browseTagsParams.setItemsPath(null); // parâmetro opcional (para listar todas, basta enviar uma String vazia ou enviar null)
-					//a lista que receber é salva tudo nesta variável 
+					browseTagsParams.setItemsPath(null); // parametro opcional (para listar todas, basta enviar uma String vazia ou enviar null)
+					//a lista que receber e salva toda nesta variavel 
 					BrowseTagsResponse browseTagsResponse = null;
 
 					try {
-						//faz a ligação com o servidor ScadaBR via SOAP
+						//faz a ligacao com o servidor ScadaBR via SOAP
 					    browseTagsResponse = service.browseTags(browseTagsParams);
 					    System.out.println("Tags response OK");
 					} catch (RemoteException e) {
@@ -83,10 +85,10 @@ public class WebService {
 						response = "Error: " + errors[0].getDescription();
 					} else {
 						//senão vá guardando cada tag na varíavel tipo string
-					    response = "Tags founded:\n";
+					    response = "Tags founded: ";
 					    for(int i = 0; i < itemList.length; i++) {
 					    	//pega o nome de cada tag
-					    	response += ("\n" + itemList[i].getItemName());
+					    	response += (itemList[i].getItemName() + ", ");
 					    }
 					    //imprime a lista de tags encontradas no console
 					    System.out.println(response);
@@ -94,7 +96,7 @@ public class WebService {
 					
 					
 				} catch (ServiceException e) {
-					// Tratamento da exceção
+					// Tratamento da excecao
 					System.out.println("Web service exception - NOK");
 					
 				}
@@ -102,7 +104,7 @@ public class WebService {
 			}
 	
 	//TODO
-	/*Escrever numero de PCB no loader e unloader, dependendo do tag que resceber.*/
+	/*Escrever numero de PCB no loader e unloader, dependendo do tag que receber.*/
 	public static void writePCB(String tag, Object Value){
 		String path = "";
 		WriteDataOptions writeDataOptions = new WriteDataOptions();
@@ -164,16 +166,16 @@ public class WebService {
 		
 		//TODO
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
-		if (name.equals("L1"))tag = "Machines.Loader.Loader_MachineStatus";
-		else if (name.equals("PP1"))tag = "Machines.PastePrinter.PP_MachineStatus";
-		else if (name.equals("PaP1"))tag = "Machines.PickAndPlace.PaP_MachineStatus";
-		else if (name.equals("U1"))tag = "Machines.Unloader.Unloader_MachineStatus";
-		else if (name.equals("VS1"))tag = "Machines.AOI.AOI_MachineStatus";
-		else if (name.equals("RO1"))tag = "Machines.Oven.Oven_MachineStatus";
+		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
+		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
+		else if (name.equals("PaP1")) tag = "Machines.PickAndPlace.PaP_MachineStatus";
+		else if (name.equals("U1")) tag = "Machines.Unloader.Unloader_MachineStatus";
+		else if (name.equals("VS1")) tag = "Machines.AOI.AOI_MachineStatus";
+		else if (name.equals("RO1")) tag = "Machines.Oven.Oven_MachineStatus";
 		
 		String pathWriteData = tag;
 		
-		itemValue.setItemName(pathWriteData); // Path da tag a receber a operação de escrita
+		itemValue.setItemName(pathWriteData); // Path da tag a receber a operacao de escrita
 		itemValue.setTimestamp(Calendar.getInstance());
 		itemValue.setQuality(QualityCode.GOOD);
 		itemValue.setDataType(DataType.INTEGER);
@@ -182,16 +184,16 @@ public class WebService {
 		
 		//TODO
 		/*Trocar status para numero referente*/
-		if(estatus.equals("STOPPED"))Value = 1;
-		else if(estatus.equals("IDLE"))Value = 2;
-		else if(estatus.equals("WAIT"))Value = 3;
-		else if(estatus.equals("LOADED"))Value = 4;
-		else if(estatus.equals("READY"))Value = 5;
-		else if(estatus.equals("PAUSE"))Value = 6;
+		if(estatus.equals("STOPPED")) Value = 1; 
+		else if(estatus.equals("IDLE")) Value = 2;
+		else if(estatus.equals("WAIT")) Value = 3;
+		else if(estatus.equals("LOADED")) Value = 4;
+		else if(estatus.equals("READY")) Value = 5;
+		else if(estatus.equals("PAUSE")) Value = 6; // Caso alguma falha ocorra em outra maquina, a maquina observada passa para um estado de PAUSA
 		
 		//Object novoValor = Value;
 		
-		itemValue.setValue(Value );
+		itemValue.setValue(Value);
 		ItemValue[] itemValueList = new ItemValue[1]; // Para alterar mais de uma tag, basta acrescentar mais objetos ItemValue na lista
 		itemValueList[0] = itemValue;
 
@@ -227,7 +229,7 @@ public class WebService {
 	/*Le a tag status da machine com o nome "name"*/
 	public static String readTag(String name)
 	{
-		//Segue a mesma lógica, tem que criar um objeto readDataOptions e um readDataParams para formatar os dados
+		//Segue a mesma logica, tem que criar um objeto readDataOptions e um readDataParams para formatar os dados
 		ReadDataOptions readDataOptions = new ReadDataOptions();
 		ReadDataParams readDataParams = new ReadDataParams();
 		readDataParams.setOptions(readDataOptions);
@@ -235,23 +237,24 @@ public class WebService {
 		
 		//TODO
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
-		if (name.equals("L1"))tag = "Machines.Loader.Loader_MachineStatus";
-		else if (name.equals("PP1"))tag = "Machines.PastePrinter.PP_MachineStatus";
-		else if (name.equals("PaP1"))tag = "Machines.PickAndPlace.PaP_MachineStatus";
-		else if (name.equals("U1"))tag = "Machines.Unloader.Unloader_MachineStatus";
-		else if (name.equals("VS1"))tag = "Machines.AOI.AOI_MachineStatus";
-		else if (name.equals("RO1"))tag = "Machines.Oven.Oven_MachineStatus";
+		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
+		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
+		else if (name.equals("PaP1")) tag = "Machines.PickAndPlace.PaP_MachineStatus";
+		else if (name.equals("U1")) tag = "Machines.Unloader.Unloader_MachineStatus";
+		else if (name.equals("VS1")) tag = "Machines.AOI.AOI_MachineStatus";
+		else if (name.equals("RO1")) tag = "Machines.Oven.Oven_MachineStatus";
 		
 		String[] itemPathList = {""+tag};
 		readDataParams.setItemPathList(itemPathList); // lista com todas as tags que se deseja ler
 		ReadDataResponse readDataResponse = new ReadDataResponse();
+		if (verboseDebug) System.out.println("readTag: Params read from tag: "+tag);
 
 		try {
 			//recebendo os dados do ScadaBR
 		    readDataResponse = service.readData(readDataParams);
-		    //System.out.println("recebido os dados lidos");
+		    if (verboseDebug) System.out.println("readTag: data was read.");
 		} catch (RemoteException e) {
-			
+			if (verboseDebug) System.out.println("readTag: Error trying to read data!");
 		    e.printStackTrace();
 		}
 
@@ -263,7 +266,7 @@ public class WebService {
 		APIError[] errorsReadDataResponse = readDataResponse.getErrors();
 		
 				
-		//só enviei uma tag para ler então só tem um item na minha lista
+		//so enviei uma tag para ler entao so tem um item na minha lista
 		if(errorsReadDataResponse[0].getCode() != ErrorCode.OK)
 		    responseReadData = "Error: " + errorsReadDataResponse[0].getDescription();
 		else
@@ -279,7 +282,7 @@ public class WebService {
 		else if(responseReadData.equals("5"))resposta = "READY";
 		else if(responseReadData.equals("6"))resposta = "PAUSED";
 		
-		//System.out.println(resposta);
+		if (verboseDebug) System.out.println("readTag (final response): "+resposta);
 		
 		return resposta;
 	

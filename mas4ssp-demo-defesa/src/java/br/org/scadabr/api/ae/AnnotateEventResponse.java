@@ -8,7 +8,8 @@
 package br.org.scadabr.api.ae;
 
 public class AnnotateEventResponse  implements java.io.Serializable {
-    private br.org.scadabr.api.vo.APIError[] errors;
+
+	private br.org.scadabr.api.vo.APIError[] errors;
 
     private br.org.scadabr.api.vo.EventMessage[] eventMessagesList;
 

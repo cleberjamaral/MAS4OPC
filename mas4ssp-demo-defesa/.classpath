@@ -6,9 +6,9 @@
 	<classpathentry kind="src" path="src/org"/>
 	<classpathentry kind="src" path="src/clp"/>
 	<classpathentry kind="lib" path="src/lib/c4jason.jar"/>
-	<classpathentry kind="lib" path="src/lib/cartago.jar"/>
+	<classpathentry kind="lib" path="src/lib/cartago.jar" sourcepath="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/eclipsemars/plugins/cartago-2.0.1.zip"/>
 	<classpathentry kind="lib" path="src/lib/jacamo.jar"/>
-	<classpathentry kind="lib" path="src/lib/jason.jar"/>
+	<classpathentry kind="lib" path="src/lib/jason.jar" sourcepath="D:/Dropbox (IFSC)/_Portable/Ferramentas de desenvolvimento/Jason-1.4.2"/>
 	<classpathentry kind="lib" path="src/lib/jess.jar"/>
 	<classpathentry kind="lib" path="src/lib/moise.jar"/>
 	<classpathentry kind="lib" path="lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>

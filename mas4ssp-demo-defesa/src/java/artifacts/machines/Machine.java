@@ -26,6 +26,8 @@ outports = {
 }
 )public class Machine extends Artifact {
 	
+	static boolean verboseDebug = false; 
+
 	public enum Status {
 		STOPPED, IDLE, WAIT, LOADED, READY, PAUSE, DEFECT
 	}
@@ -57,7 +59,7 @@ outports = {
 	@OPERATION
 	void naming (String name){
 		this.nome = name;
-		System.out.println("Nome: " +name);
+		System.out.println("Machine: Machine '" +name+"' was named successfully!");
 
 //TODO		
 /* Nesse caso espero a flag de stopped done. Fico lendo o valor que esta no status do sensor, se for stopped ele seta a flag, senao espera 1 segundo e tenta novamente.
@@ -68,7 +70,7 @@ outports = {
 		while(!this.s_done)
 		{
 			String response = WebService.readTag(this.nome);
-			System.out.println("Resposta: " +response);
+			if (verboseDebug) System.out.println("Machine: Response from stopped done: " +response+ " (name: "+this.nome+")");
 			
 			if(response.equals("STOPPED"))
 			{
@@ -98,7 +100,7 @@ outports = {
 		while(!this.w_done)
 		{
 			String response = WebService.readTag(this.nome);
-			System.out.println("Resposta: " +response);
+			if (verboseDebug) System.out.println("Machine: Response from stopped: " +response+ " (name: "+this.nome+")");
 			
 			if(response.equals("IDLE"))
 			{
@@ -365,7 +367,7 @@ outports = {
 				ms.maquina = 6;
 			}
 			
-			System.out.println("Open socket and stream created!");  
+			System.out.println("Machine:sendMsgToGUI: Open socket and stream created!");  
 			String host = "localhost";//args[0];  
 			Socket socket = new Socket (host, 250);  
 
@@ -384,7 +386,8 @@ outports = {
 
 		}  
 		catch(Exception e)  
-		{ System.err.println(e);  
+		{ 
+			System.err.println("Machine: sendMsgToGUI Error! "+e);  
 		}  
 	}  
 		

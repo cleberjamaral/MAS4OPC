@@ -19,5 +19,4 @@ mas mas2ssp {
 	}
 	
     asl-path: src/asl
-              src/agt	
 }

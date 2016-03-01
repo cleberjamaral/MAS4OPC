@@ -55,18 +55,22 @@ list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),lin
 	<-  
 		/*Criar grupos e definir subgrupos*/
 		.my_name(Me);
+		.print("Organization: Creating groups and subgroups...");
 		makeArtifact("company","ora4mas.nopl.GroupBoard",["src/org/org4ssp.xml","grCompany", false, true], GrpID);
 		setOwner(Me);
 		focus(GrpID);
 
+		.print("Organization: Making manager artifact...");
 		makeArtifact("sManagers","ora4mas.nopl.GroupBoard",["src/org/org4ssp.xml","grManagers", false, true], SGM);
 		setOwner(Me);
 		focus(SGM);
 		setParentGroup("company")[artifact_id(SGM)];
 		
 		/*Planner adotar seu papel */
+		.print("Organization: Planner is taking his role...");
 		adoptRole("rPlanning")[artifact_id(SGM)];
 
+		.print("Organization: Making shopfloor artifacts...");
 		makeArtifact("sShopFloor","ora4mas.nopl.GroupBoard",["src/org/org4ssp.xml","grShopFloor", false, true], SGSF);
 		setOwner(Me);
 		focus(SGSF);
@@ -75,6 +79,7 @@ list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),lin
 		/* Envio dos papeis dos outros agentes */
 		// O agente Planner envia para os demais agentes quais sao os papeis que foram sugeridos para eles
 		// Cada agente opta por adotar ou nao o papel sugerido pela organizacao
+		.print("Organization: shopfloor and managers artifacts are taking their roles...");
 		.send([assembler],achieve,adoptRole("sShopFloor",rAssembly));
 		.send([configurator],achieve,adoptRole("sShopFloor",rSetup));
 		.send([inspector],achieve,adoptRole("sShopFloor",rInspection));
@@ -86,9 +91,12 @@ list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),lin
      	
      	focus(SchID);
      	
+		.print("Organization: Adding schemes...");
      	addScheme("planProduction") [artifact_id(SGM)];
      	addScheme("planProduction") [artifact_id(SGSF)];
-     	addScheme("planProduction") [artifact_id(GrpID)].
+     	addScheme("planProduction") [artifact_id(GrpID)];
+     	.print("Organization: Created succesfully!").
+     	
 
 //Este plano cria a interface grafica neste caso que faz parte da plataforma JaCaMo
 //O agente Planner recebe o produto a ser produzido da interface do usuário
