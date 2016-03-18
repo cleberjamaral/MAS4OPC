@@ -36,7 +36,6 @@ public class WebService {
 	}
 	
 	
-	//TODO
 	/*Inicia a conexao com a api SCADA*/
 	
 	public static void initWeb()
@@ -54,7 +53,7 @@ public class WebService {
 					////////////////////////////////////////////////
 					
 					BrowseTagsOptions browseTagsOptions = new BrowseTagsOptions();
-					//numero maximo de tags que buscara¡
+					//numero maximo de tags que buscaraï¿½
 					browseTagsOptions.setMaxReturn(100); // parametro opcional (valor padrao = 100)
 					//configurando como receberemos as tags
 					BrowseTagsParams browseTagsParams = new BrowseTagsParams();
@@ -103,8 +102,9 @@ public class WebService {
 
 			}
 	
-	//TODO
-	/*Escrever numero de PCB no loader e unloader, dependendo do tag que receber.*/
+	/**
+	 * Escrever numero de PCB no loader e unloader, dependendo do tag que receber.
+	 */
 	public static void writePCB(String tag, Object Value){
 		String path = "";
 		WriteDataOptions writeDataOptions = new WriteDataOptions();
@@ -154,7 +154,6 @@ public class WebService {
 		System.out.println(responseWriteData);	
 	}
 	
-	//TODO
 	/*Escreve na tag de status*/
 	public static void writeTag(String name, String estatus)
 	{
@@ -164,7 +163,6 @@ public class WebService {
 
 		ItemValue itemValue = new ItemValue();
 		
-		//TODO
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
 		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
 		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
@@ -182,7 +180,6 @@ public class WebService {
 		
 		Object Value = null;
 		
-		//TODO
 		/*Trocar status para numero referente*/
 		if(estatus.equals("STOPPED")) Value = 1; 
 		else if(estatus.equals("IDLE")) Value = 2;
@@ -225,7 +222,6 @@ public class WebService {
 		System.out.println(responseWriteData);	
 	}
 	
-	//TODO
 	/*Le a tag status da machine com o nome "name"*/
 	public static String readTag(String name)
 	{
@@ -235,7 +231,6 @@ public class WebService {
 		readDataParams.setOptions(readDataOptions);
 		String tag = "";
 		
-		//TODO
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
 		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
 		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
@@ -273,7 +268,7 @@ public class WebService {
 		    responseReadData = ""+itemsValue[0].getValue();
 		
 		String resposta = null;
-		//TODO
+
 		/*Trocar numero para status referente*/
 		if(responseReadData.equals("1"))resposta = "STOPPED";
 		else if(responseReadData.equals("2"))resposta = "IDLE";

@@ -73,7 +73,7 @@ public class FrmPrincipal extends JFrame implements ActionListener{
 		toolBar.add(btnSupervisrio);
 		
 		btnConfigurao = new JButton("Configura\u00E7\u00E3o");
-		btnConfigurao.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/sun/javafx/scene/web/skin/UnorderedListBullets_16x16_JFX.png")));
+		//btnConfigurao.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/sun/javafx/scene/web/skin/UnorderedListBullets_16x16_JFX.png")));
 		toolBar.add(btnConfigurao);
 		
 		scrollPane = new JScrollPane();

@@ -23,6 +23,7 @@ machineList([ machine("L1","artifacts.machines.Loader"),
 			  machine("PaP1","artifacts.machines.PickAndPlaceStation"), 
 			  machine("U1","artifacts.machines.Unloader"),
 			  machine("VS1","artifacts.machines.VisionSystem"),
+			  machine("CI","artifacts.machines.Interface"), //CamelInterface
 			  machine("RO1","artifacts.machines.ReflowOven")
 ]).
 
@@ -31,7 +32,9 @@ machineList([ machine("L1","artifacts.machines.Loader"),
 //pois este artefato (e o agente) eh o responsável pelo carregamento do lote e acompanhar a sua conclusao (descarregamento)
 list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]],
 			   	[002,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","RO1"),link("RO1","PaP1","VS1"), link("VS1","RO1","U1"), link("U1","VS1","assembler"), link("assembler","U1","L1") ]], //link com VisionSystem
-			   	[003,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]]]).
+			   	[003,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]],
+			   	[004,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","RO1"),link("RO1","PaP1","CI"), link("CI","RO1","U1"), link("U1","CI","assembler"), link("assembler","U1","L1") ]] //link Camel Interface
+			   	]).
 
 /* Initial goals */
 
@@ -103,7 +106,7 @@ list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),lin
 @createGUI	
 +!create_GUI : true
  	<-  .print("GUI... selecting the product");
-		+product_received([2,20]). //Formato do produto [qual linha usar - list links,tamanho do lote]
+		+product_received([1,10]). //Formato do produto [qual linha usar - list links,tamanho do lote]
 
 //Este plano aguarda da interface grafica o produto a ser produzido
 //O agente Planner recebe o produto a ser produzido da interface do usuario e passa as suas informacoes

@@ -15,6 +15,7 @@ package artifacts.machines;
 
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.Stack;
 
 import resources.*;
 import cartago.*;
@@ -54,19 +55,25 @@ outports = {
 		sendMsgToGUI(status);
 	}
 	
-//TODO	
-/*Criei esse metodo para nomear os artefatos para que eu saiba qual o campo do SCADA cada um altera.*/	
+/**
+ * Criei esse metodo para nomear os artefatos para que eu saiba qual o campo do SCADA cada um altera.
+ */	
 	@OPERATION
 	void naming (String name){
 		this.nome = name;
 		System.out.println("Machine: Machine '" +name+"' was named successfully!");
 
-//TODO		
-/* Nesse caso espero a flag de stopped done. Fico lendo o valor que esta no status do sensor, se for stopped ele seta a flag, senao espera 1 segundo e tenta novamente.
+/** 
+ * Nesse caso espero a flag de stopped done. Fico lendo o valor que esta no status do sensor, se for stopped ele seta a flag, senao espera 1 segundo e tenta novamente.
  * 
  * Vale resaltar q ele so vai criar a proxima machine quando esse metodo for terminado, assim a sequencia esta, loader - PP1 - PaP1 ....
  * mesmo que a outra esteja em sttoped ela nao vai ser analisada.
- * */
+ * 
+ * TODO Cleber: Check with Roloff where exactly is the environment definition and even workspaces
+ * This information is also useful for definition of contextpath of camel, where the first idea is
+ * to have ://workspace/artifact?operations
+ *  
+ */
 		while(!this.s_done)
 		{
 			String response = WebService.readTag(this.nome);
@@ -95,8 +102,8 @@ outports = {
 		await_time(1000);
 		batchSize = _batchSize;
 		id_prod = idp;
-//TODO
-/*Mesmo caso do Stopped*/
+
+		/*Mesmo caso do Stopped*/
 		while(!this.w_done)
 		{
 			String response = WebService.readTag(this.nome);
@@ -126,7 +133,7 @@ outports = {
 		if(this.status==Status.IDLE){
 			this.status=Status.WAIT;
 			
-			//TODO escreve wait
+			//TODO: Cleber: change to camel
 			WebService.writeTag(this.nome, "WAIT");
 
 			stats.updateValue("WAIT");
@@ -137,7 +144,7 @@ outports = {
 		}else if(status==Status.PAUSE){
 			this.status=lastStatus;
 			
-			//TODO escreve pause
+			//TODO: Cleber: change to camel
 			WebService.writeTag(this.nome, "PAUSE");
 			
 			stats.updateValue(lastStatus.toString());
@@ -171,7 +178,10 @@ outports = {
 				pauseOp();
 			}
 
-			// TODO aqui poderia ser colocado uma leitura o campo, porem acho que criaria confurao, pois nao sei de qual estado a maquina acabou de sair.
+			/**
+			 * Aqui poderia ser colocado uma leitura o campo, porem acho que criaria confurao, 
+			 * pois nao sei de qual estado a maquina acabou de sair.
+			 */
 			if(status==Status.PAUSE){
 				await("returnFromPause");
 			}else if(status==Status.WAIT){
@@ -229,7 +239,7 @@ outports = {
 			loaded=true;
 			status=Status.LOADED;	
 			
-			//TODO escreve LOADED
+			//TODO: Cleber: change to camel
 			WebService.writeTag(this.nome, "LOADED");
 			
 			await_time(1000);
@@ -249,7 +259,7 @@ outports = {
 			await("isUnloaded");
 			status=Status.WAIT;
 			
-			// TODO escreve wait
+			//TODO: Cleber: change to camel
 			WebService.writeTag(this.nome, "WAIT");
 			
 			await_time(1000);
@@ -267,7 +277,7 @@ outports = {
 		currentProduct.operate("Op "+this.getClass().getName()+": Ok");
 		status=Status.READY;
 		
-		//TODO escreve READY
+		//TODO: Cleber: change to camel
 		WebService.writeTag(this.nome, "READY");
 		
 		await_time(1000);
@@ -284,7 +294,7 @@ outports = {
 		lastStatus=status;
 		status=Status.PAUSE;
 		
-		//TODO escreve PAUSE
+		//TODO: Cleber: change to camel
 		WebService.writeTag(this.nome, "PAUSE");
 		
 		stats.updateValue("PAUSE");
@@ -298,7 +308,7 @@ outports = {
 		operating=false;
 		status=Status.STOPPED;
 		
-		//TODO escreve Stopped
+		//TODO: Cleber: change to camel
 		WebService.writeTag(this.nome, "STOPPED");
 		
 		stats.updateValue("STOPPED");
@@ -391,6 +401,11 @@ outports = {
 		}  
 	}  
 		
+	@LINK
+	void writeinput(String v) {
+		log("writeinput invoked");
+		System.out.println("Link is working!!!! Received: "+v);
+	}
 }
 
 

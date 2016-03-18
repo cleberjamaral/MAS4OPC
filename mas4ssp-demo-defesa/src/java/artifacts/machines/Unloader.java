@@ -54,7 +54,6 @@ outports = {
 			this.status=Status.READY;
 			stats.updateValue("READY");
 			
-			//TODO 
 			/*Atualiza o numero de placas prontas.*/
 			WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
 			
@@ -63,7 +62,6 @@ outports = {
 			this.status=Status.WAIT;
 			stats.updateValue("WAIT");
 			
-			//TODO 
 			/*Atualiza o numero de placas prontas.*/
 			WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
 		}		

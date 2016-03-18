@@ -48,7 +48,6 @@ public class Assembler extends Artifact {
 		batch_size = _batchSize;
 		execInternalOp("operate");
 		
-		//TODO 
 		/*Atualiza o numero de placas a serem produzidas e zera o numero de placas prontas.*/
 		WebService.writePCB("Machines.Loader.Loader_NumOfPCB",_batchSize);
 		WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",0);
