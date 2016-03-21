@@ -17,23 +17,24 @@
 
 /* Initial beliefs and rules */
 
-//Lista de maquinas a serem criadas baseadas no experimento da linha do LabElectron
+/* List of machines to be created, based on LabElectron plant (testing environment)
+INT is not a machine and shouldnt be listed here. It is going to be linked
+so configurator should create INT first and than link machines and interface */
 machineList([ machine("L1","artifacts.machines.Loader"),
 			  machine("PP1","artifacts.machines.PastePrinter"),
 			  machine("PaP1","artifacts.machines.PickAndPlaceStation"), 
 			  machine("U1","artifacts.machines.Unloader"),
 			  machine("VS1","artifacts.machines.VisionSystem"),
-			  machine("CI","artifacts.machines.Interface"), //CamelInterface
 			  machine("RO1","artifacts.machines.ReflowOven")
 ]).
 
 //Criacao da lista de links entre as maquinas da linha do Labelectron
 //o agente Assembler por meio de um artefato Assembler eh que inicia e termina a lista 
 //pois este artefato (e o agente) eh o responsável pelo carregamento do lote e acompanhar a sua conclusao (descarregamento)
-list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]],
+//Estes cada linha de link corresponde a conexao entre artefatos para o respectivo produto (primeiro campo idProduto)
+list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","INT"), link ("INT","U1","assembler"), link("assembler","INT","L1") ]],
 			   	[002,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","RO1"),link("RO1","PaP1","VS1"), link("VS1","RO1","U1"), link("U1","VS1","assembler"), link("assembler","U1","L1") ]], //link com VisionSystem
-			   	[003,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]],
-			   	[004,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","RO1"),link("RO1","PaP1","CI"), link("CI","RO1","U1"), link("U1","CI","assembler"), link("assembler","U1","L1") ]] //link Camel Interface
+			   	[003,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]]
 			   	]).
 
 /* Initial goals */

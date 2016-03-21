@@ -111,4 +111,17 @@ public class Assembler extends Artifact {
 		log("    Allowed to load");
 		loadEnabled=true;
 	}
+
+	@LINK
+	void writeinputAr(String v) {
+		System.out.println("Link is working!!!! Received: " + v +" opid:"+thisOpId.toString());
+		log("writeinput invoked");
+	}
+
+	@LINK
+	void writeinputteste(String y) {
+		System.out.println("writeinputteste invoked." + y +" opid:"+thisOpId.toString());
+		log("writeinputteste invoked");
+	}
+
 }

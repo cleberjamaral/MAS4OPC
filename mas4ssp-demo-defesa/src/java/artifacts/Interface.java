@@ -21,11 +21,8 @@
 
 package artifacts;
 
-import static com.summit.camel.opc.Opcda2Endpoint.VALUE;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -33,14 +30,21 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.Processor;
 import org.apache.camel.Exchange;
 
-import com.summit.camel.opc.JIVariantMarshaller;
 import com.summit.camel.opc.Opcda2Component;
 import camelartifact.ArtifactComponent;
 import camelartifact.CamelArtifact;
+import cartago.ARTIFACT_INFO;
+import cartago.Artifact;
+import cartago.ArtifactId;
+import cartago.OUTPORT;
+import cartago.OperationException;
 
 import resources.*;
-import cartago.*;
+import sun.security.jca.GetInstance;
 
+/**
+ * Artifact out ports
+ */
 @ARTIFACT_INFO(outports = { @OUTPORT(name = "out-1"), @OUTPORT(name = "in-1") })
 /**
  * This artifact should be linked with many other artifacts making their
@@ -48,6 +52,7 @@ import cartago.*;
  * route and has linkedoperations
  */
 public class Interface extends CamelArtifact {
+	
 	void init() {
 
 		// TODO Cleber: Remove webservices call, now initialization must be kept
@@ -71,7 +76,20 @@ public class Interface extends CamelArtifact {
 		 * and Artifacts components
 		 */
 		final CamelContext camel = new DefaultCamelContext();
-		camel.addComponent("artifact", new ArtifactComponent());
+		/**
+		 * Singleton sounds to do not work
+		 * The task now is to give the pointer to CAMEL artifact
+		 * so, the endpoint can write in this artifact by reference
+		 */
+//		Is it necessary? Give an id to the camel artifact?
+//		try {
+//			ArtifactId aid = lookupArtifact("CAMEL");
+//			camelartifactinstance = GetInstance(aid); 
+//		} catch (OperationException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		camel.addComponent("artifact", new ArtifactComponent(this));
 		camel.addComponent("opcda2", new Opcda2Component());
 
 		/**
@@ -107,43 +125,50 @@ public class Interface extends CamelArtifact {
 							Map<String, Map<String, Object>> receivedData = new HashMap<String, Map<String, Object>>();
 							receivedData = exchange.getIn().getBody(Map.class);
 
-							//System.out.println("Data body: " + receivedData);
+							// System.out.println("Data body: " + receivedData);
 
 							Map<String, String> throwData = new HashMap<String, String>();
 							for (String tagName : receivedData.keySet()) {
-								// Just testing
-								/*
-								System.out.println(" * * * tag: "+tagName);
+								/**
+								 * Just testing, I am filtering to have only two
+								 * tags Here I think we gotta have some known
+								 * messages, or I can just give to the artifacts
+								 * everything I got from the route and they do
+								 * the filtering process
+								 */
 								if (tagName.equals("Bucket Brigade.Boolean")
 										|| tagName
 												.equals("Bucket Brigade.Int1")) {
-									System.out.println("Data item tagName: "
-											+ tagName + ", Value: "
-											+ receivedData.get(tagName));
+									// System.out.println("Data item tagName: "+
+									// tagName + ", Value: " +
+									// receivedData.get(tagName));
+									/**
+									 * This is the received value as string
+									 */
+									String value = receivedData
+											.get(tagName)
+											.toString()
+											.substring(
+													7,
+													receivedData.get(tagName)
+															.toString()
+															.length() - 1);
+									System.out.println("content tag: "
+											+ tagName + ", data: " + value);
+
+									throwData.put(tagName, value);
 								}
-								if (tagName.equals("Bucket Brigade.Int2")) {
-									System.out
-											.println("Content modifyed to ArtifactProducer...");
-									exchange.getIn().setBody(tagName);
-								}
-								*/
-								
-								/**
-								 * This is the received value as string 
+								/*
+								 * System.out.println(" * * * tag: "+tagName);
+								 * if (tagName.equals("Bucket Brigade.Int2")) {
+								 * System.out .println(
+								 * "Content modifyed to ArtifactProducer...");
+								 * exchange.getIn().setBody(tagName); }
 								 */
-								String value = receivedData.get(tagName)
-										.toString()
-										.substring(
-												7,
-												receivedData.get(tagName)
-														.toString()
-														.length() - 1); 
-								System.out.println("content tag: "
-										+ tagName
-										+ ", data: "
-										+ value);
-								
-								throwData.put(tagName, value);
+								/**
+								 * Delivering a MAP of events based on two
+								 * strings (key, value)
+								 */
 								exchange.getIn().setBody(throwData);
 							}
 

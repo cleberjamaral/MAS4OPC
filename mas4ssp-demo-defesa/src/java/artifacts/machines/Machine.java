@@ -27,7 +27,7 @@ outports = {
 }
 )public class Machine extends Artifact {
 	
-	static boolean verboseDebug = false; 
+	static boolean verboseDebug = true; 
 
 	public enum Status {
 		STOPPED, IDLE, WAIT, LOADED, READY, PAUSE, DEFECT
@@ -77,7 +77,10 @@ outports = {
 		while(!this.s_done)
 		{
 			String response = WebService.readTag(this.nome);
-			if (verboseDebug) System.out.println("Machine: Response from stopped done: " +response+ " (name: "+this.nome+")");
+			if (verboseDebug) {
+				System.out.println("Machine: Response on naming: " +response+ " (name: "+this.nome+")");
+				if (response == null) response = "STOPPED"; 
+			}
 			
 			if(response.equals("STOPPED"))
 			{
@@ -107,7 +110,10 @@ outports = {
 		while(!this.w_done)
 		{
 			String response = WebService.readTag(this.nome);
-			if (verboseDebug) System.out.println("Machine: Response from stopped: " +response+ " (name: "+this.nome+")");
+			if (verboseDebug) {
+				System.out.println("Machine: Response on setup: " +response+ " (name: "+this.nome+")");
+				if (response == null) response = "STOPPED"; 
+			}
 			
 			if(response.equals("IDLE"))
 			{
@@ -406,6 +412,11 @@ outports = {
 		log("writeinput invoked");
 		System.out.println("Link is working!!!! Received: "+v);
 	}
+
+	@LINK void inc1(){
+		  System.out.println("inc1-1 invoked.");
+	}
+	
 }
 
 

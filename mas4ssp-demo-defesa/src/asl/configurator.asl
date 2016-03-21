@@ -49,11 +49,19 @@
 	
 +!g3 : true
 	<- .println("GOAL g3: select and create machines and links");
+		//!createCamel;
 		!createInterface;
+		.println("Creating Dyn...");
 		!createDyn;
+		//Cleber test
+		.println("Linkando...");
+		lookupArtifact("INT",INTid);
+		lookupArtifact("assembler",ASSid);
+		linkArtifacts(INTid, "out-1", ASSid);
+		.println("Linkado!");
 		.wait({+allLinked(1)}); //O agente espera ate criar o link de todas as maquinas da linha espeficada
 		-+allLinked(0);
-		.send([inspector],achieve,observeVisionSystem);. 
+		.send([inspector],achieve,observeVisionSystem). 
 		
 /* ATENCAO: neste modelo o SETUP estah sendo feito depois de uma percepcao de mudanca de estado */
 
@@ -91,8 +99,8 @@
 
 @createLine
 +!createDyn : machineList(X) & .list(X) 
-						<- .println("Machine List created");
-							for(.member(Y,X)){!createMachine(Y)}.
+						<- for(.member(Y,X)){!createMachine(Y)};
+						.println("Machine List created").
      								 
 +!createMachine(M) : M = machine(N,T) 
 						<-	.println("Creating machine >> Name: ",N," type: ",T);
@@ -102,7 +110,12 @@
 					  									  	
 +!createInterface	 <- 
 				makeArtifact("INT","artifacts.Interface",[],C);
-				focus(C). 
+				focus(C).
+
+//+!createCamel	 <- 
+				//.println("Creating Camel Artifact.");
+				//makeArtifact("CAMEL","camelartifact.CamelArtifact",[],C);
+				//focus(C).
 			  			        								 
 /* Realiza o setup das maquinas para a produto selecionado */
 

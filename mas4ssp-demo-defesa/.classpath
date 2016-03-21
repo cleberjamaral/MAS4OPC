@@ -19,7 +19,7 @@
 	<classpathentry kind="lib" path="/home/cleber/.m2/repository/org/eclipse/xtext/org.eclipse.xtext/2.8.4/org.eclipse.xtext-2.8.4.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/camel-opc"/>
 	<classpathentry kind="lib" path="/home/cleber/.m2/repository/org/apache/camel/camel-core/2.12.3/camel-core-2.12.3.jar"/>
-	<classpathentry kind="lib" path="/home/cleber/Desktop/MAS/mas4ssp-demo-defesa/lib/camelartifact-0.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/cleber/Desktop/MAS/mas4ssp-demo-defesa/lib/camelartifact-0.0.1.jar" sourcepath="/camel-artifact-component"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/camel-artifact-component"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
