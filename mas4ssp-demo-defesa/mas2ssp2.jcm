@@ -1,4 +1,5 @@
 mas mas2ssp {
+
 	agent statistic {
 		source: statistic.asl
 	}
@@ -19,4 +20,6 @@ mas mas2ssp {
 	}
 	
     asl-path: src/asl
+    
+    platform: JaCaMo("infrastructure")    
 }

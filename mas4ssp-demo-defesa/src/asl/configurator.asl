@@ -54,14 +54,17 @@
 		.println("Creating Dyn...");
 		!createDyn;
 		//Cleber test
-		.println("Linkando...");
+		.println("Linking interface and assembler...");
 		lookupArtifact("INT",INTid);
 		lookupArtifact("assembler",ASSid);
 		linkArtifacts(INTid, "out-1", ASSid);
-		.println("Linkado!");
+		focus(INTid);
+		setListenCamelRoute(true);
+		.println("Interface and assembler linked!");
 		.wait({+allLinked(1)}); //O agente espera ate criar o link de todas as maquinas da linha espeficada
 		-+allLinked(0);
-		.send([inspector],achieve,observeVisionSystem). 
+		.send([inspector],achieve,observeVisionSystem);
+		.println("Machines linked successfully!"). 
 		
 /* ATENCAO: neste modelo o SETUP estah sendo feito depois de uma percepcao de mudanca de estado */
 

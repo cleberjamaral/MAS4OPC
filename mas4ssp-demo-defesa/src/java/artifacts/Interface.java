@@ -52,7 +52,7 @@ import sun.security.jca.GetInstance;
  * route and has linkedoperations
  */
 public class Interface extends CamelArtifact {
-	
+
 	void init() {
 
 		// TODO Cleber: Remove webservices call, now initialization must be kept
@@ -76,19 +76,6 @@ public class Interface extends CamelArtifact {
 		 * and Artifacts components
 		 */
 		final CamelContext camel = new DefaultCamelContext();
-		/**
-		 * Singleton sounds to do not work
-		 * The task now is to give the pointer to CAMEL artifact
-		 * so, the endpoint can write in this artifact by reference
-		 */
-//		Is it necessary? Give an id to the camel artifact?
-//		try {
-//			ArtifactId aid = lookupArtifact("CAMEL");
-//			camelartifactinstance = GetInstance(aid); 
-//		} catch (OperationException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 		camel.addComponent("artifact", new ArtifactComponent(this));
 		camel.addComponent("opcda2", new Opcda2Component());
 
@@ -125,9 +112,7 @@ public class Interface extends CamelArtifact {
 							Map<String, Map<String, Object>> receivedData = new HashMap<String, Map<String, Object>>();
 							receivedData = exchange.getIn().getBody(Map.class);
 
-							// System.out.println("Data body: " + receivedData);
-
-							Map<String, String> throwData = new HashMap<String, String>();
+							Map<String, Object> throwData = new HashMap<String, Object>();
 							for (String tagName : receivedData.keySet()) {
 								/**
 								 * Just testing, I am filtering to have only two
@@ -136,44 +121,25 @@ public class Interface extends CamelArtifact {
 								 * everything I got from the route and they do
 								 * the filtering process
 								 */
-								if (tagName.equals("Bucket Brigade.Boolean")
-										|| tagName
-												.equals("Bucket Brigade.Int1")) {
-									// System.out.println("Data item tagName: "+
-									// tagName + ", Value: " +
-									// receivedData.get(tagName));
-									/**
-									 * This is the received value as string
-									 */
-									String value = receivedData
-											.get(tagName)
-											.toString()
-											.substring(
-													7,
-													receivedData.get(tagName)
-															.toString()
-															.length() - 1);
-									System.out.println("content tag: "
-											+ tagName + ", data: " + value);
+								if (tagName.equals("Bucket Brigade.Boolean"))
+									throwData.put("writeinputAr", "tst");
+								if (tagName.equals("Bucket Brigade.Int1"))
+									throwData.put("writeinputAr", "tst2");
 
-									throwData.put(tagName, value);
-								}
-								/*
-								 * System.out.println(" * * * tag: "+tagName);
-								 * if (tagName.equals("Bucket Brigade.Int2")) {
-								 * System.out .println(
-								 * "Content modifyed to ArtifactProducer...");
-								 * exchange.getIn().setBody(tagName); }
-								 */
-								/**
-								 * Delivering a MAP of events based on two
-								 * strings (key, value)
-								 */
-								exchange.getIn().setBody(throwData);
 							}
+							/**
+							 * Delivering a MAP of events based on two
+							 * strings (key, value)
+							 */
+							
+							exchange.getIn().setHeader("ArtifactName",
+									"assembler");
+							exchange.getIn().setHeader("OperationName",
+									"writeinputAr");
+							exchange.getIn().setBody(throwData);
 
 						}
-					}).to("artifact:shopfloor/loader");
+					}).to("artifact:assembler");
 				}
 			});
 		} catch (Exception e) {
@@ -188,6 +154,7 @@ public class Interface extends CamelArtifact {
 		System.out.println("Starting camel...");
 		try {
 			camel.start();
+			// this.setListenCamelRoute(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

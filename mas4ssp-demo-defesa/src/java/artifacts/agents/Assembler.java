@@ -118,10 +118,4 @@ public class Assembler extends Artifact {
 		log("writeinput invoked");
 	}
 
-	@LINK
-	void writeinputteste(String y) {
-		System.out.println("writeinputteste invoked." + y +" opid:"+thisOpId.toString());
-		log("writeinputteste invoked");
-	}
-
 }
