@@ -55,11 +55,6 @@ public class Interface extends CamelArtifact {
 
 	void init() {
 
-		// TODO Cleber: Remove webservices call, now initialization must be kept
-		// to avoid problems in other classes
-		System.out.println("artifacts.interface Inicia a conexao...");
-		WebService.initWeb();
-
 		/**
 		 * TODO Cleber: Give a way to set this parameters out from this app
 		 * These parameters should be accessible in a easier form, this approach
@@ -67,7 +62,7 @@ public class Interface extends CamelArtifact {
 		 */
 		final String domain = "localhost";
 		final String user = "cleber";
-		final String password = "tna24hps";
+		final String password = "mas4opc2016";
 		final String clsid = "f8582cf2-88fb-11d0-b850-00c0f0104305";
 		final String host = "139.80.75.139";
 
