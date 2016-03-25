@@ -19,7 +19,8 @@ mas mas2ssp {
 		source: planner.asl
 	}
 	
-    asl-path: src/asl
+    asl-path: src/agt
+    		  src/agt/inc
     
     platform: JaCaMo("infrastructure")    
 }

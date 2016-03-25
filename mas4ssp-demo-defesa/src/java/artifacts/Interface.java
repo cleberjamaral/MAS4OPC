@@ -54,7 +54,11 @@ import sun.security.jca.GetInstance;
 public class Interface extends CamelArtifact {
 
 	void init() {
-
+ 		// TODO Cleber: Remove webservices call, now initialization must be kept
+ 		// to avoid problems in other classes
+ 		System.out.println("artifacts.interface Inicia a conexao...");
+ 		WebService.initWeb();
+ 		
 		/**
 		 * TODO Cleber: Give a way to set this parameters out from this app
 		 * These parameters should be accessible in a easier form, this approach
