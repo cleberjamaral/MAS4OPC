@@ -50,21 +50,29 @@
 +!g3 : true
 	<- .println("GOAL g3: select and create machines and links");
 		//!createCamel;
-		!createInterface;
+		//!createInterface;
 		.println("Creating Dyn...");
 		!createDyn;
-		//Cleber test
-		.println("Linking interface and assembler...");
-		lookupArtifact("INT",INTid);
-		lookupArtifact("assembler",ASSid);
-		linkArtifacts(INTid, "out-1", ASSid);
-		focus(INTid);
-		setListenCamelRoute(true);
-		.println("Interface and assembler linked!");
-		.wait({+allLinked(1)}); //O agente espera ate criar o link de todas as maquinas da linha espeficada
-		-+allLinked(0);
-		.send([inspector],achieve,observeVisionSystem);
-		.println("Machines linked successfully!"). 
+		
+		//.println("Linking interface and assembler...");
+		//lookupArtifact("INT",INTid);
+		//lookupArtifact("assembler",ASSid);
+		//linkArtifacts(INTid, "out-1", ASSid);
+		//focus(INTid);
+		//setListenCamelRoute(true);
+		//.println("Interface and assembler linked!");
+
+		.println("Cleber test 1...");
+		lookupArtifact("L1",Lid);
+		focus(Lid);
+		setListenCamelRoute(false); 
+		setListenCamelRoute(true); 
+		
+		//.wait({+allLinked(1)}); //O agente espera ate criar o link de todas as maquinas da linha espeficada
+		//-+allLinked(0);
+		//.send([inspector],achieve,observeVisionSystem);
+		.println("Machines linked successfully!").
+		
 		
 /* ATENCAO: neste modelo o SETUP estah sendo feito depois de uma percepcao de mudanca de estado */
 
@@ -105,11 +113,27 @@
 						<- for(.member(Y,X)){!createMachine(Y)};
 						.println("Machine List created").
      								 
-+!createMachine(M) : M = machine(N,T) 
++!createMachine(M) : M = machine(N,T) & N =="L1"
 						<-	.println("Creating machine >> Name: ",N," type: ",T);
 					  		makeArtifact(N,T,[],C); 
+					  		.println("Focusing ",N);
 					  		focus(C);
-					  		naming(N)[artifact_name(N)]. //metodo que nomeia e espera o STOPPED
+					  		.println("Creating Routes ",N);
+					  		createRoutes;
+					  		.println("Starting ",N);
+					  		startCamel;
+					  		.println("Naming ",N);
+					  		naming(N)[artifact_name(N)];
+					  		.println("Artifact ",N," named and STOPPED status was set!"). //metodo que nomeia e espera o STOPPED
+
++!createMachine(M) : M = machine(N,T) & not N == "L1"
+						<-	.println("Creating machine >> Name: ",N," type: ",T);
+					  		makeArtifact(N,T,[],C); 
+					  		.println("Focusing ",N);
+					  		focus(C);
+					  		.println("Naming ",N);
+					  		naming(N)[artifact_name(N)];
+					  		.println("Artifact ",N," named and STOPPED status was set!"). //metodo que nomeia e espera o STOPPED
 					  									  	
 +!createInterface	 <- 
 				makeArtifact("INT","artifacts.Interface",[],C);

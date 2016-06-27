@@ -2,12 +2,12 @@
  * BRAGECRIM 013/09 
  * Authors: LOCH G. N.; RIGOBELLO, T. F.; ROLOFF, M. L.; SOUZA, V. O.
  * 
- * Resumo: este artefato é a forma como o agente assembler interage com o ambiente.
+ * Resumo: este artefato �� a forma como o agente assembler interage com o ambiente.
  * O agente tem como objetivo monitorar o processo de montagem
- * do produto. Após todos os equipamentos estarem disponíveis para produção
+ * do produto. Ap��s todos os equipamentos estarem dispon��veis para produ����o
  * o lote de produtos pode ser carregado na linha de montagem. O agente envia 
  * a ordem de carregamento do lote de produtos no primeiro equipamento e 
- * supervisiona a produção até o armazenamento de todos os produtos produzidos
+ * supervisiona a produ����o at�� o armazenamento de todos os produtos produzidos
  * no ultimo equipamento. A qualquer momento ele sabe o status de cada um dos 
  * equipamentos (livre, ocupado, falha).
  *   
@@ -49,8 +49,8 @@ public class Assembler extends Artifact {
 		execInternalOp("operate");
 		
 		/*Atualiza o numero de placas a serem produzidas e zera o numero de placas prontas.*/
-		WebService.writePCB("Machines.Loader.Loader_NumOfPCB",_batchSize);
-		WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",0);
+		//TODO: Cleber replace: WebService.writePCB("Machines.Loader.Loader_NumOfPCB",_batchSize);
+		//TODO: Cleber replace: WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",0);
 	}
 	
 	@INTERNAL_OPERATION void operate(){

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/java/artifacts/Interface.java=UTF-8
+encoding//src/java/artifacts/agents/Assembler.java=UTF-8
 encoding//src/java/artifacts/machines/Loader.java=UTF-8
 encoding//src/java/artifacts/machines/Machine.java=UTF-8
 encoding//src/java/artifacts/machines/Unloader.java=UTF-8
@@ -71,4 +72,3 @@ encoding//src/java/br/org/scadabr/api/vo/ItemStringValue.java=UTF-8
 encoding//src/java/br/org/scadabr/api/vo/ItemValue.java=UTF-8
 encoding//src/java/br/org/scadabr/api/vo/ReplyBase.java=UTF-8
 encoding//src/java/br/org/scadabr/api/vo/ServerStatus.java=UTF-8
-encoding//src/java/resources/WebService.java=UTF-8

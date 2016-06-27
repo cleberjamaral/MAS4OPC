@@ -55,7 +55,7 @@ outports = {
 			stats.updateValue("READY");
 			
 			/*Atualiza o numero de placas prontas.*/
-			WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
+			//TODO: Cleber replace: WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
 			
 			
 		}else{
@@ -63,7 +63,7 @@ outports = {
 			stats.updateValue("WAIT");
 			
 			/*Atualiza o numero de placas prontas.*/
-			WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
+			//TODO: Cleber replace: WebService.writePCB("Machines.Unloader.Unloader_NumOfFinished",currentBatch.size());
 		}		
 	}
 	

@@ -41,6 +41,9 @@ termino(0).
 	<- .println("GOAL g5: load itens on loader and start");
 		run(Num)[artifact_name("assembler")].
 
++!g5 : true
+	<- .println("g5 fail event occurred!").
+
 //Este plano acompanha a producao do lote - fluxo dos produtos pelas maquinas
 @watchProduction
 +!g6 : machinesList(ML)
@@ -48,6 +51,9 @@ termino(0).
 	   for(.member(X,ML)) {!observe(X)}; //Propriedade observavel de todos os artefatos da linha - verificar o status
 	   .wait({+termino(1)}); //Quando o item do lote chega no ultimo equipamento este avisa que o item foi finalizado
 	   -+termino(0).
+
++!g6 : true
+	<- .println("g6 fail event occurred!").
 	   
 @endBatch
 +!g7 : true

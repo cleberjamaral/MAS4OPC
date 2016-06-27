@@ -19,7 +19,7 @@
 /**
  * 
  */
-
+ 
 package artifacts.machines;
 
 import java.util.Stack;

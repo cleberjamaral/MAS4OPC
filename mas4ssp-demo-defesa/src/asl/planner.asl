@@ -28,7 +28,7 @@ machineList([ machine("L1","artifacts.machines.Loader"),
 
 //Criacao da lista de links entre as maquinas da linha do Labelectron
 //o agente Assembler por meio de um artefato Assembler eh que inicia e termina a lista 
-//pois este artefato (e o agente) eh o responsável pelo carregamento do lote e acompanhar a sua conclusao (descarregamento)
+//pois este artefato (e o agente) eh o responsavel pelo carregamento do lote e acompanhar a sua conclusao (descarregamento)
 list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]],
 			   	[002,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","RO1"),link("RO1","PaP1","VS1"), link("VS1","RO1","U1"), link("U1","VS1","assembler"), link("assembler","U1","L1") ]], //link com VisionSystem
 			   	[003,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),link("PaP1","PP1","U1"), link("U1","PaP1","assembler"), link("assembler","U1","L1") ]]]).
@@ -99,11 +99,11 @@ list_id_link([  [001,[ link("L1","assembler","PP1"), link("PP1","L1","PaP1"),lin
      	
 
 //Este plano cria a interface grafica neste caso que faz parte da plataforma JaCaMo
-//O agente Planner recebe o produto a ser produzido da interface do usuário
+//O agente Planner recebe o produto a ser produzido da interface do usuario
 @createGUI	
 +!create_GUI : true
  	<-  .print("GUI... selecting the product");
-		+product_received([2,10]). //Formato do produto [qual linha usar - list links,tamanho do lote]
+		+product_received([1,10]). //Formato do produto [qual linha usar - list links,tamanho do lote]
 
 //Este plano aguarda da interface grafica o produto a ser produzido
 //O agente Planner recebe o produto a ser produzido da interface do usuario e passa as suas informacoes
