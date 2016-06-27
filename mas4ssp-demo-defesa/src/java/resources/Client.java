@@ -18,7 +18,7 @@ public class Client
 			//		}  
 
 			System.out.println("Abrindo o socket e criando o stream.");  
-			String host = "localhost";//args[0];  
+			String host = "172.18.16.186";//args[0];  
 			Socket socket = new Socket (host, 250);  
 
 			DataOutputStream ostream = new DataOutputStream(socket.getOutputStream());  

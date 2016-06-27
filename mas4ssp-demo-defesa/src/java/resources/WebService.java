@@ -40,9 +40,6 @@ public class WebService {
 	
 	public static void initWeb()
 	{
-//		//declarando os objetos necessarios para o servico para se conectar ao servidor - ScadaBR
-//				APILocator locator = new APILocator();
-//				ScadaBRAPI service = null;
 				
 				try {
 					//criando o servico e instanciando a API do ScadaBR
@@ -53,7 +50,7 @@ public class WebService {
 					////////////////////////////////////////////////
 					
 					BrowseTagsOptions browseTagsOptions = new BrowseTagsOptions();
-					//numero maximo de tags que buscara�
+					//numero maximo de tags que buscara���
 					browseTagsOptions.setMaxReturn(100); // parametro opcional (valor padrao = 100)
 					//configurando como receberemos as tags
 					BrowseTagsParams browseTagsParams = new BrowseTagsParams();
@@ -83,7 +80,7 @@ public class WebService {
 					    //se tiver um erro - informe
 						response = "Error: " + errors[0].getDescription();
 					} else {
-						//senão vá guardando cada tag na varíavel tipo string
+						//sen��o v�� guardando cada tag na var��avel tipo string
 					    response = "Tags founded: ";
 					    for(int i = 0; i < itemList.length; i++) {
 					    	//pega o nome de cada tag
@@ -114,7 +111,7 @@ public class WebService {
 		
 		String pathWriteData = tag;
 		
-		itemValue.setItemName(pathWriteData); // Path da tag a receber a operação de escrita
+		itemValue.setItemName(pathWriteData); // Path da tag a receber a opera����o de escrita
 		itemValue.setTimestamp(Calendar.getInstance());
 		itemValue.setQuality(QualityCode.GOOD);
 		itemValue.setDataType(DataType.INTEGER);
@@ -144,7 +141,7 @@ public class WebService {
 		
 		APIError[] errorsWriteData = writeDataResponse.getErrors();
 		if(errorsWriteData[0].getCode() != ErrorCode.OK) {
-			//se acontecer algum erro - é porque a TAG não está com a opção SETABLE ativada - vá na edição da TAG e sete esta opção
+			//se acontecer algum erro - �� porque a TAG n��o est�� com a op����o SETABLE ativada - v�� na edi����o da TAG e sete esta op����o
 			responseWriteData = "Error: " + errorsWriteData[0].getDescription();
 		} else {
 			responseWriteData = path + ":\t" + novoValor;
@@ -164,12 +161,12 @@ public class WebService {
 		ItemValue itemValue = new ItemValue();
 		
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
-		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
-		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
-		else if (name.equals("PaP1")) tag = "Machines.PickAndPlace.PaP_MachineStatus";
-		else if (name.equals("U1")) tag = "Machines.Unloader.Unloader_MachineStatus";
-		else if (name.equals("VS1")) tag = "Machines.AOI.AOI_MachineStatus";
-		else if (name.equals("RO1")) tag = "Machines.Oven.Oven_MachineStatus";
+		if (name.equals("L1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("PP1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("PaP1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("U1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("VS1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("RO1")) tag = "Bucket Brigade.Int1";
 		
 		String pathWriteData = tag;
 		
@@ -212,7 +209,7 @@ public class WebService {
 		
 		APIError[] errorsWriteData = writeDataResponse.getErrors();
 		if(errorsWriteData[0].getCode() != ErrorCode.OK) {
-			//se acontecer algum erro - é porque a TAG não está com a opção SETABLE ativada - vá na edição da TAG e sete esta opção
+			//se acontecer algum erro - �� porque a TAG n��o est�� com a op����o SETABLE ativada - v�� na edi����o da TAG e sete esta op����o
 			responseWriteData = "Error: " + errorsWriteData[0].getDescription();
 		} else {
 			responseWriteData = "Tag value updated:\t" + Value;
@@ -232,12 +229,12 @@ public class WebService {
 		String tag = "";
 		
 		/* De acordo com o nome do artefato, seleciono a TAG do scada*/
-		if (name.equals("L1")) tag = "Machines.Loader.Loader_MachineStatus";
-		else if (name.equals("PP1")) tag = "Machines.PastePrinter.PP_MachineStatus";
-		else if (name.equals("PaP1")) tag = "Machines.PickAndPlace.PaP_MachineStatus";
-		else if (name.equals("U1")) tag = "Machines.Unloader.Unloader_MachineStatus";
-		else if (name.equals("VS1")) tag = "Machines.AOI.AOI_MachineStatus";
-		else if (name.equals("RO1")) tag = "Machines.Oven.Oven_MachineStatus";
+		if (name.equals("L1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("PP1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("PaP1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("U1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("VS1")) tag = "Bucket Brigade.Int1";
+		else if (name.equals("RO1")) tag = "Bucket Brigade.Int1";
 		
 		String[] itemPathList = {""+tag};
 		readDataParams.setItemPathList(itemPathList); // lista com todas as tags que se deseja ler

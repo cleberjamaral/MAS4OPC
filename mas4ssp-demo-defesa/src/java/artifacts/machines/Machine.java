@@ -2,9 +2,9 @@
  * BRAGECRIM 013/09 
  * Authors: LOCH G. N.; RIGOBELLO, T. F.; ROLOFF, M. L.; SOUZA, V. O.
  * 
- * Resumo: este artefato modela as características comuns de todos os equipamentos
- * na linha de produção. Foi construído com o propósito de utilizar bem as características
- * de orientação a objetos que modela os artefatos e demais recursos do ambiente.
+ * Resumo: este artefato modela as caracter��sticas comuns de todos os equipamentos
+ * na linha de produ����o. Foi constru��do com o prop��sito de utilizar bem as caracter��sticas
+ * de orienta����o a objetos que modela os artefatos e demais recursos do ambiente.
  *   
  * 2013-05-07 - MAS initial infrastructure for SSP 
  */
@@ -17,6 +17,13 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Stack;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.impl.DefaultCamelContext;
+
+import com.summit.camel.opc.Opcda2Component;
+
+import camelartifact.ArtifactComponent;
+import camelartifact.CamelArtifact;
 import resources.*;
 import cartago.*;
 
@@ -25,9 +32,16 @@ outports = {
 @OUTPORT(name = "out-1"),
 @OUTPORT(name = "in-1")
 }
-)public class Machine extends Artifact {
+)
+public class Machine extends CamelArtifact {
 	
 	static boolean verboseDebug = true; 
+
+	static String domain = "localhost";
+	static String user = "cleber";
+	static String password = "MAS4opc2016";
+	static String clsid = "f8582cf2-88fb-11d0-b850-00c0f0104305";
+	static String host = "192.168.0.107";
 
 	public enum Status {
 		STOPPED, IDLE, WAIT, LOADED, READY, PAUSE, DEFECT
@@ -53,6 +67,12 @@ outports = {
 		//defineObsProperty("status", "STOPPED");
 		//chamadaEscrita.writeTag(this.nome, "STOPPED");
 		sendMsgToGUI(status);
+
+		final CamelContext camel = new DefaultCamelContext();
+		// This simple application has only one component receiving messages from the route and producing operations
+		camel.addComponent("artifact", new ArtifactComponent(this.getIncomingOpQueue(), this.getOutgoingOpQueue()));
+		camel.addComponent("opcda2", new Opcda2Component());
+		
 	}
 	
 /**
